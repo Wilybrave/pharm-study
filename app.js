@@ -232,5 +232,5 @@
   rebuild = function(o){ if(mode === "browse") drawBrowse(); else _rebuild(o); };
 
   drawChips();
-  setMode(mode);
+  setMode(location.hash === "#browse" ? "browse" : mode);
 })();
