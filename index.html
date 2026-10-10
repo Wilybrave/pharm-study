@@ -180,14 +180,14 @@
 
   <section id="browse" hidden>
     <input class="search noprint" id="q" type="search" placeholder="Search a drug, side effect, antidote…">
-    <div class="note">Shows the chapters ticked above. To print, use your browser's Print (two columns, each card kept whole, about 46 pages for everything).
-      Or grab the ready-made <a href="Pharm-Flash-Cards.pdf">PDF of all 10 main chapters</a>. Tip: to print one chapter, tick only that chapter first.</div>
+    <div class="note">Shows the chapters ticked above. To print, use your browser's Print (two columns, each card kept whole, about 40 pages for the test chapters).
+      Or grab the ready-made <a href="Pharm-Flash-Cards.pdf">PDF of all 10 test chapters</a>. Tip: to print one chapter, tick only that chapter first.</div>
     <div id="blist"></div>
   </section>
 
   <footer>
     Study aid written from standard nursing pharmacology. Your book and your instructor win if anything differs.
-    Chapter numbers are matched to 9.0 as best we could; dashed chips are extra sets in case the numbering is off.
+    Dashed chip = extra chapter not on the test list (off by default).
   </footer>
 </div>
 
@@ -202,9 +202,9 @@
 
 <script>
 window.SETS = [
-  {key:"ch13",  ch:"Ch 13", title:"Chronic Neurologic Disorders", file:"ch13"},
+  {key:"ch12",  ch:"Ch 12", title:"Chronic Neurologic Disorders", file:"ch12", hedge:true},
+  {key:"ch13",  ch:"Ch 13", title:"Eye & Ear Disorders", file:"ch13"},
   {key:"ch14",  ch:"Ch 14", title:"Muscle Relaxants (only)", file:"ch14"},
-  {key:"eyeear",ch:"Ch 15?", title:"Eye & Ear Disorders", file:"eye-ear", hedge:true},
   {key:"ch16",  ch:"Ch 16", title:"Airflow Disorders (asthma/COPD)", file:"ch16"},
   {key:"ch17",  ch:"Ch 17", title:"Upper Respiratory Disorders", file:"ch17"},
   {key:"ch19",  ch:"Ch 19", title:"Blood Pressure", file:"ch19"},
@@ -215,9 +215,9 @@ window.SETS = [
   {key:"ch34",  ch:"Ch 34", title:"Opioid Agonists & Antagonists", file:"ch34"},
 ];
 </script>
-<script src="data/ch13.js"></script>
+<script src="data/ch12.js"></script>
 <script src="data/ch14.js"></script>
-<script src="data/eye-ear.js"></script>
+<script src="data/ch13.js"></script>
 <script src="data/ch16.js"></script>
 <script src="data/ch17.js"></script>
 <script src="data/ch19.js"></script>
