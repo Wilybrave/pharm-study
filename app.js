@@ -18,7 +18,7 @@
   };
 
   let mode = store.get("mode", "cards");
-  let on = new Set(store.get("sets", SETS.filter(s => !s.hedge).map(s => s.key)));
+  let on = new Set(store.get("sets2", SETS.filter(s => !s.hedge).map(s => s.key)));
   let known = new Set(store.get("known", []));
   let field = store.get("field", "mix");
   let queue = [], idx = 0, flipped = false, missed = new Set();
@@ -33,7 +33,7 @@
     $("chips").innerHTML = SETS.map(s => {
       const n = CARDS.filter(c => c.set === s.key).length;
       return `<button class="chip${on.has(s.key) ? " on" : ""}${s.hedge ? " hedge" : ""}" data-k="${s.key}">
-        <b>${esc(s.ch)}</b> ${esc(s.title)}<small>${n} cards${s.hedge ? " · extra, in case it's on her list" : ""}</small></button>`;
+        <b>${esc(s.ch)}</b> ${esc(s.title)}<small>${n} cards${s.hedge ? " · extra, not on the test list" : ""}</small></button>`;
     }).join("");
     const n = CARDS.filter(c => on.has(c.set)).length;
     $("setCount").textContent = `${on.size} of ${SETS.length} chapters · ${n} cards`;
@@ -41,10 +41,10 @@
   $("chips").addEventListener("click", e => {
     const b = e.target.closest(".chip"); if(!b) return;
     const k = b.dataset.k; on.has(k) ? on.delete(k) : on.add(k);
-    store.set("sets", [...on]); drawChips(); rebuild();
+    store.set("sets2", [...on]); drawChips(); rebuild();
   });
-  $("allOn").onclick = () => { on = new Set(SETS.map(s => s.key)); store.set("sets", [...on]); drawChips(); rebuild(); };
-  $("allOff").onclick = () => { on = new Set(); store.set("sets", []); drawChips(); rebuild(); };
+  $("allOn").onclick = () => { on = new Set(SETS.map(s => s.key)); store.set("sets2", [...on]); drawChips(); rebuild(); };
+  $("allOff").onclick = () => { on = new Set(); store.set("sets2", []); drawChips(); rebuild(); };
 
   // ---------- options ----------
   $("field").innerHTML += FIELDS.map(f => `<option value="${f.k}">${f.label} only</option>`).join("");
