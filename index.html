@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Pharm Flash Cards — ATI RN Pharmacology 9.0</title>
+<style>
+  :root{
+    --ink:#16202c; --muted:#5f7084; --line:#d3dce7; --soft:#f2f6fa; --bg:#f7f9fc;
+    --blue:#1d6fb8; --bluebg:#e6f0fa;
+    --red:#b8283a; --redbg:#fbe9ec;
+    --gold:#8a6300; --goldbg:#fdf4dc;
+    --green:#1f6b4a; --greenbg:#e3f3ec;
+    --purple:#5b3a9e; --purplebg:#efe9fa;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 90px}
+  header h1{font-size:20px;margin:4px 0 0;letter-spacing:-.2px}
+  header p{margin:2px 0 10px;color:var(--muted);font-size:13px}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;margin:8px 0 10px;flex-wrap:wrap}
+  .tabs button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-weight:600;color:var(--muted)}
+  .tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  details.panel{background:#fff;border:1px solid var(--line);border-radius:10px;margin:0 0 12px}
+  details.panel summary{padding:9px 12px;font-weight:600;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+  details.panel summary::-webkit-details-marker{display:none}
+  details.panel summary .cnt{color:var(--muted);font-weight:400}
+  .panel .in{padding:0 12px 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:5px 9px;font-size:13px;text-align:left;line-height:1.25}
+  .chip small{display:block;color:var(--muted);font-size:11px}
+  .chip.on{border-color:var(--blue);background:var(--bluebg)}
+  .chip.hedge{border-style:dashed}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:13px}
+  .row label{display:flex;gap:5px;align-items:center}
+  .row select{font:inherit;font-size:13px;padding:3px 6px;border-radius:6px;border:1px solid var(--line)}
+  .lnk{background:none;border:none;color:var(--blue);padding:0;font-size:13px;text-decoration:underline}
+
+  /* progress */
+  .prog{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin:2px 2px 6px}
+  .bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:10px}
+  .bar i{display:block;height:100%;background:var(--green);width:0;transition:width .25s}
+
+  /* card */
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 10px rgba(22,32,44,.06);
+    min-height:340px;padding:18px 18px 16px;position:relative;cursor:pointer;user-select:none;-webkit-user-select:none}
+  .card .tag{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .front{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:300px}
+  .front .drug{font-size:28px;font-weight:700;margin:8px 0 2px;line-height:1.15}
+  .front .brand{color:var(--muted);font-style:italic}
+  .front .cls{margin-top:12px;font-size:14px;color:var(--blue);font-weight:600}
+  .front .ask{margin-top:22px;font-size:17px;font-weight:700;padding:8px 14px;border-radius:8px;background:var(--goldbg);color:var(--gold)}
+  .front .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;color:#9aa8b8}
+  .back .head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:8px}
+  .back .head b{font-size:18px}
+  .back .head span{font-size:12px;color:var(--muted);text-align:right}
+  .moa{font-size:13.5px;color:var(--muted);margin:0 0 6px}
+  .others{font-size:13px;margin:0 0 6px}
+  .sec{margin:8px 0 0;border-left:4px solid var(--line);padding:2px 0 2px 10px}
+  .sec h4{margin:0 0 2px;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+  .sec ul{margin:0;padding-left:17px}
+  .sec li{margin:1px 0;font-size:14.5px}
+  .sec.ind{border-color:var(--blue)} .sec.ind h4{color:var(--blue)}
+  .sec.se{border-color:#7d8da0} .sec.se h4{color:#5f7084}
+  .sec.ae{border-color:var(--red)} .sec.ae h4{color:var(--red)}
+  .sec.ci{border-color:#c0631b} .sec.ci h4{color:#a5520f}
+  .sec.ix{border-color:var(--purple)} .sec.ix h4{color:var(--purple)}
+  .sec.warn{border-color:var(--gold);background:var(--goldbg);border-radius:0 6px 6px 0} .sec.warn h4{color:var(--gold)}
+  .sec.edu{border-color:var(--green)} .sec.edu h4{color:var(--green)}
+  .sec.anti{border-color:var(--ink)} .sec.anti h4{color:var(--ink)}
+  .anti-none{color:var(--muted);font-style:italic}
+  .tip{margin-top:10px;background:var(--soft);border-radius:8px;padding:7px 10px;font-size:13.5px}
+  .tip b{color:var(--blue)}
+  .bb{font-weight:700;color:var(--red)}
+  .drillback{min-height:300px;display:flex;flex-direction:column;justify-content:center}
+  .drillback .sec{border-left-width:5px}
+  .drillback .sec li{font-size:16px}
+
+  /* controls */
+  .ctrl{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);
+    padding:9px 12px calc(9px + env(safe-area-inset-bottom));backdrop-filter:blur(6px)}
+  .ctrl .in{max-width:760px;margin:0 auto;display:flex;gap:8px}
+  .ctrl button{flex:1;padding:11px 6px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:600}
+  .ctrl .again{border-color:#e7b3bb;color:var(--red)}
+  .ctrl .got{background:var(--green);border-color:var(--green);color:#fff}
+  .ctrl .flip{background:var(--ink);border-color:var(--ink);color:#fff}
+  .ctrl .sm{flex:.55}
+  .done{text-align:center;padding:50px 20px}
+  .done h2{margin:0 0 8px}
+  .done button{margin:6px;padding:10px 16px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:600}
+
+  /* browse / print */
+  .bset h2{font-size:15px;margin:22px 0 8px;padding:6px 10px;border-radius:6px;background:var(--ink);color:#fff}
+  .bset h3{font-size:13px;margin:14px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .bcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 10px;break-inside:avoid;page-break-inside:avoid}
+  .search{width:100%;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;margin:0 0 6px}
+  .note{font-size:12.5px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:0 0 12px}
+  footer{font-size:12px;color:#8b9aab;margin-top:24px}
+  [hidden]{display:none!important}
+
+  @media (max-width:480px){
+    .front .drug{font-size:24px}
+    .sec li{font-size:14px}
+    .card{padding:15px 13px 14px}
+  }
+  @page{size:letter;margin:.45in}
+  @media print{
+    body{background:#fff;font-size:11px}
+    header p, .tabs, details.panel, .ctrl, .search, .note, .noprint, #study, footer{display:none!important}
+    #browse{display:block!important}
+    .wrap{max-width:none;padding:0}
+    .bcard{border-color:#bbb;padding:7px 9px;margin-bottom:6px}
+    .sec li{font-size:10.5px}
+    .sec{margin-top:4px}
+    .back .head b{font-size:13px}
+    .bset h2{font-size:12px;margin:12px 0 6px}
+    html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Pharm Flash Cards</h1>
+    <p>ATI RN Pharmacology for Nursing 9.0: indications, side effects, adverse effects, contraindications, interactions, warnings, client education, antidotes</p>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button data-mode="cards" class="on">Flash cards</button>
+    <button data-mode="drill">Drill one topic</button>
+    <button data-mode="browse">Browse / print</button>
+  </div>
+
+  <details class="panel" id="setPanel">
+    <summary><span>Chapters</span><span class="cnt" id="setCount"></span></summary>
+    <div class="in">
+      <div class="chips" id="chips"></div>
+      <div class="row">
+        <button class="lnk" id="allOn">Select all</button>
+        <button class="lnk" id="allOff">Clear</button>
+      </div>
+      <div class="row" id="drillOpts" hidden>
+        <label>Drill:
+          <select id="field">
+            <option value="mix">Mixed (random topic each card)</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" id="shuffle" checked> Shuffle</label>
+        <label><input type="checkbox" id="hideKnown"> Skip cards I've marked “Got it”</label>
+        <button class="lnk" id="resetKnown">Reset “Got it” marks</button>
+      </div>
+    </div>
+  </details>
+
+  <section id="study">
+    <div class="prog"><span id="pos"></span><span id="knownCt"></span></div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="card" id="card" tabindex="0"></div>
+  </section>
+
+  <section id="browse" hidden>
+    <input class="search noprint" id="q" type="search" placeholder="Search a drug, side effect, antidote…">
+    <div class="note">Shows the chapters ticked above. To print, use your browser's Print. Each card stays together on one page.</div>
+    <div id="blist"></div>
+  </section>
+
+  <footer>
+    Study aid written from standard nursing pharmacology. Your book and your instructor win if anything differs.
+    Chapter numbers are matched to 9.0 as best we could; dashed chips are extra sets in case the numbering is off.
+  </footer>
+</div>
+
+<div class="ctrl" id="ctrl">
+  <div class="in">
+    <button class="sm" id="prev" aria-label="Previous">◀</button>
+    <button class="again" id="again">Again</button>
+    <button class="flip" id="flipBtn">Flip</button>
+    <button class="got" id="got">Got it</button>
+  </div>
+</div>
+
+<script>
+window.SETS = [
+  {key:"ch13",  ch:"Ch 13", title:"Chronic Neurologic Disorders", file:"ch13"},
+  {key:"ch14",  ch:"Ch 14", title:"Muscle Relaxants (only)", file:"ch14"},
+  {key:"eyeear",ch:"Ch 15?", title:"Eye & Ear Disorders", file:"eye-ear", hedge:true},
+  {key:"ch16",  ch:"Ch 16", title:"Airflow Disorders (asthma/COPD)", file:"ch16"},
+  {key:"ch17",  ch:"Ch 17", title:"Upper Respiratory Disorders", file:"ch17"},
+  {key:"ch19",  ch:"Ch 19", title:"Blood Pressure", file:"ch19"},
+  {key:"ch20",  ch:"Ch 20", title:"Cardiac Glycosides & Heart Failure", file:"ch20"},
+  {key:"ch21",  ch:"Ch 21", title:"Angina", file:"ch21"},
+  {key:"ch22",  ch:"Ch 22", title:"Cardiac Rhythm + Cholesterol", file:"ch22"},
+  {key:"ch33",  ch:"Ch 33", title:"Nonopioid Analgesics", file:"ch33"},
+  {key:"ch34",  ch:"Ch 34", title:"Opioid Agonists & Antagonists", file:"ch34"},
+];
+</script>
+<script src="data/ch13.js"></script>
+<script src="data/ch14.js"></script>
+<script src="data/eye-ear.js"></script>
+<script src="data/ch16.js"></script>
+<script src="data/ch17.js"></script>
+<script src="data/ch19.js"></script>
+<script src="data/ch20.js"></script>
+<script src="data/ch21.js"></script>
+<script src="data/ch22.js"></script>
+<script src="data/ch33.js"></script>
+<script src="data/ch34.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
