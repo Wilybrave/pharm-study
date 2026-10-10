@@ -19,7 +19,7 @@ Progress is saved in the browser.
 
 | Chip | Set |
 |---|---|
-| Ch 12 | Chronic Neurologic Disorders (*extra, not on the test list; off by default*) |
+| Ch 12 | Chronic Neurologic Disorders (Alzheimer's, Parkinson's, MS, seizures, myasthenia gravis) |
 | Ch 13 | Eye & Ear Disorders |
 | Ch 14 | Muscle relaxants and antispasmodics only |
 | Ch 16 | Airflow Disorders (asthma/COPD) |
