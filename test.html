@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Week 6 Test — Antilipemics</title>
+<style>
+  :root{
+    --ink:#16202c; --muted:#5f7084; --line:#d3dce7; --soft:#f2f6fa; --bg:#f7f9fc;
+    --blue:#1d6fb8; --bluebg:#e6f0fa;
+    --red:#b8283a; --redbg:#fbe9ec;
+    --gold:#8a6300; --goldbg:#fdf4dc;
+    --green:#1f6b4a; --greenbg:#e3f3ec;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 100px}
+  header h1{font-size:20px;margin:4px 0 0;letter-spacing:-.2px}
+  header p{margin:2px 0 10px;color:var(--muted);font-size:13px}
+  header a{color:var(--blue);font-size:13px}
+
+  .prog{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin:8px 2px 6px}
+  .bar{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:12px}
+  .bar i{display:block;height:100%;background:var(--green);width:0;transition:width .25s}
+
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 10px rgba(22,32,44,.06);padding:18px}
+  .topic{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .q{font-size:17.5px;font-weight:650;margin:6px 0 4px;line-height:1.4}
+  .sata{display:inline-block;font-size:12px;font-weight:700;color:var(--gold);background:var(--goldbg);border-radius:6px;padding:2px 8px;margin:2px 0 6px}
+  .opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);
+    border-radius:10px;padding:10px 12px;color:var(--ink)}
+  .opt .k{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;color:var(--muted)}
+  .opt.multi .k{border-radius:6px}
+  .opt .t{flex:1}
+  .opt.sel{border-color:var(--blue);background:var(--bluebg)}
+  .opt.sel .k{background:var(--blue);border-color:var(--blue);color:#fff}
+  .opt:disabled{cursor:default}
+  .opt.right{border-color:var(--green);background:var(--greenbg)}
+  .opt.right .k{background:var(--green);border-color:var(--green);color:#fff}
+  .opt.wrong{border-color:var(--red);background:var(--redbg)}
+  .opt.wrong .k{background:var(--red);border-color:var(--red);color:#fff}
+  .opt.missed{border-color:var(--green);border-style:dashed}
+  .why{display:block;font-size:13.5px;margin-top:4px;color:var(--muted)}
+  .opt.right .why{color:var(--green)}
+  .opt.wrong .why{color:var(--red)}
+  .verdict{margin-top:14px;padding:10px 12px;border-radius:10px;font-weight:700}
+  .verdict.ok{background:var(--greenbg);color:var(--green)}
+  .verdict.no{background:var(--redbg);color:var(--red)}
+  .verdict small{display:block;font-weight:400;color:var(--ink);margin-top:2px}
+
+  .ctrl{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);
+    padding:9px 12px calc(9px + env(safe-area-inset-bottom));backdrop-filter:blur(6px)}
+  .ctrl .in{max-width:760px;margin:0 auto;display:flex;gap:8px}
+  .ctrl button{flex:1;padding:12px 6px;border-radius:10px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;font-weight:700}
+  .ctrl button:disabled{opacity:.35;cursor:default}
+
+  .start,.done{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 18px;text-align:center}
+  .start h2,.done h2{margin:0 0 6px}
+  .start p,.done p{color:var(--muted);margin:4px 0}
+  .score{font-size:44px;font-weight:800;margin:6px 0 0}
+  .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+  .btns button{padding:11px 16px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:700}
+  .btns button.pri{background:var(--ink);border-color:var(--ink);color:#fff}
+  .topics{text-align:left;margin:16px auto 0;max-width:420px;font-size:13.5px}
+  .topics div{display:flex;justify-content:space-between;border-bottom:1px solid var(--soft);padding:4px 0}
+  .topics .bad{color:var(--red);font-weight:700}
+  .review h3{font-size:14px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .review .qcard{margin-bottom:12px;text-align:left}
+  .note{font-size:12.5px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:14px 0 0;text-align:left}
+  [hidden]{display:none!important}
+  @media (max-width:480px){ .q{font-size:16.5px} .qcard{padding:15px 13px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title"></h1>
+    <p id="sub"></p>
+    <a href="./">← Flash cards</a>
+  </header>
+
+  <section id="start" class="start" style="margin-top:12px">
+    <h2>Practice test</h2>
+    <p><b id="count"></b> questions. Pick your answer, tap <b>Check</b>, and see why each choice is right or wrong.</p>
+    <p>Questions and choices are shuffled every time you take it.</p>
+    <p id="best"></p>
+    <div class="btns"><button class="pri" id="go">Start test</button></div>
+    <div class="note">Written from the week 6 lecture slides (Antilipemic Drugs). "Select all that apply" questions only count as right if you pick every correct choice and nothing else, like on the real exam.</div>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="prog"><span id="pos"></span><span id="tally"></span></div>
+    <div class="bar"><i id="barfill"></i></div>
+    <div class="qcard">
+      <div class="topic" id="qtopic"></div>
+      <div class="q" id="qtext"></div>
+      <div class="sata" id="qsata" hidden>Select all that apply</div>
+      <div class="opts" id="opts"></div>
+      <div id="verdict"></div>
+    </div>
+  </section>
+
+  <section id="done" hidden>
+    <div class="done">
+      <h2>Done</h2>
+      <div class="score" id="pct"></div>
+      <p id="raw"></p>
+      <div class="btns">
+        <button class="pri" id="again">Retake whole test</button>
+        <button id="missedOnly">Retake only the ones I missed</button>
+      </div>
+      <div class="topics" id="bytopic"></div>
+    </div>
+    <div class="review" id="review"></div>
+  </section>
+</div>
+
+<div class="ctrl" id="ctrl" hidden><div class="in"><button id="act" disabled>Check</button></div></div>
+
+<script src="data/test-lipids.js"></script>
+<script>
+(function(){
+  var T = window.TEST, ALL = T.qs;
+  var $ = function(id){ return document.getElementById(id); };
+  var BEST_KEY = 'pharmTestBest:lipids';
+  var run = [], i = 0, picked = [], checked = false, results = [];
+
+  $('title').textContent = T.title;
+  $('sub').textContent = T.sub;
+  $('count').textContent = ALL.length;
+  showBest();
+
+  function showBest(){
+    var b = null;
+    try { b = localStorage.getItem(BEST_KEY); } catch(e){}
+    $('best').textContent = b ? 'Best full-test score so far: ' + b + '%' : '';
+  }
+  function shuffle(a){
+    a = a.slice();
+    for (var k = a.length - 1; k > 0; k--){ var j = Math.floor(Math.random() * (k + 1)); var t = a[k]; a[k] = a[j]; a[j] = t; }
+    return a;
+  }
+  // Shuffle the options too, keeping track of which are correct.
+  function prep(q){
+    var order = shuffle(q.opts.map(function(_, k){ return k; }));
+    return { src: q, topic: q.topic, q: q.q,
+      opts: order.map(function(k){ return { text: q.opts[k][0], why: q.opts[k][1], ok: q.ans.indexOf(k) >= 0 }; }),
+      multi: q.ans.length > 1 };
+  }
+  function begin(list){
+    run = shuffle(list).map(prep); i = 0; results = [];
+    $('start').hidden = true; $('done').hidden = true; $('quiz').hidden = false; $('ctrl').hidden = false;
+    show();
+  }
+  function show(){
+    var q = run[i]; picked = []; checked = false;
+    $('pos').textContent = 'Question ' + (i + 1) + ' of ' + run.length;
+    var right = results.filter(function(r){ return r.ok; }).length;
+    $('tally').textContent = results.length ? right + ' / ' + results.length + ' right' : '';
+    $('barfill').style.width = (i / run.length * 100) + '%';
+    $('qtopic').textContent = q.topic;
+    $('qtext').textContent = q.q;
+    $('qsata').hidden = !q.multi;
+    $('verdict').innerHTML = '';
+    var box = $('opts'); box.innerHTML = '';
+    q.opts.forEach(function(o, k){
+      var b = document.createElement('button');
+      b.className = 'opt' + (q.multi ? ' multi' : '');
+      b.innerHTML = '<span class="k">' + String.fromCharCode(65 + k) + '</span><span class="t"></span>';
+      b.querySelector('.t').textContent = o.text;
+      b.onclick = function(){ pick(k); };
+      box.appendChild(b);
+    });
+    $('act').textContent = 'Check'; $('act').disabled = true;
+    window.scrollTo(0, 0);
+  }
+  function pick(k){
+    if (checked) return;
+    var q = run[i];
+    if (q.multi){
+      var at = picked.indexOf(k);
+      if (at >= 0) picked.splice(at, 1); else picked.push(k);
+    } else picked = [k];
+    var btns = $('opts').children;
+    for (var n = 0; n < btns.length; n++) btns[n].classList.toggle('sel', picked.indexOf(n) >= 0);
+    $('act').disabled = picked.length === 0;
+  }
+  function check(){
+    var q = run[i]; checked = true;
+    var ok = q.opts.every(function(o, k){ return o.ok === (picked.indexOf(k) >= 0); });
+    results.push({ q: q, picked: picked.slice(), ok: ok });
+    paint($('opts'), q, picked);
+    var correct = q.opts.map(function(o, k){ return o.ok ? String.fromCharCode(65 + k) : null; }).filter(Boolean).join(', ');
+    $('verdict').innerHTML = ok
+      ? '<div class="verdict ok">Correct</div>'
+      : '<div class="verdict no">Not quite<small>Correct answer: ' + correct + '. Read why each choice is right or wrong above.</small></div>';
+    $('act').textContent = i + 1 < run.length ? 'Next question' : 'See my score';
+    $('act').disabled = false;
+    $('verdict').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  // Colour each option and show its explanation.
+  function paint(box, q, chosen){
+    var btns = box.children;
+    q.opts.forEach(function(o, k){
+      var b = btns[k], mine = chosen.indexOf(k) >= 0;
+      b.disabled = true; b.classList.remove('sel');
+      if (o.ok) b.classList.add(mine ? 'right' : 'missed');
+      else if (mine) b.classList.add('wrong');
+      var w = document.createElement('span'); w.className = 'why';
+      w.textContent = (o.ok ? (mine ? '✓ ' : 'You missed this one. ') : (mine ? '✗ ' : '')) + o.why;
+      b.querySelector('.t').appendChild(w);
+    });
+  }
+  function next(){
+    if (i + 1 < run.length){ i++; show(); } else finish();
+  }
+  function finish(){
+    $('quiz').hidden = true; $('ctrl').hidden = true; $('done').hidden = false;
+    var right = results.filter(function(r){ return r.ok; }).length;
+    var pct = Math.round(right / results.length * 100);
+    $('pct').textContent = pct + '%';
+    $('raw').textContent = right + ' of ' + results.length + ' right';
+    if (results.length === ALL.length){
+      try {
+        var b = +localStorage.getItem(BEST_KEY) || 0;
+        if (pct > b) localStorage.setItem(BEST_KEY, pct);
+      } catch(e){}
+      showBest();
+    }
+    var missed = results.filter(function(r){ return !r.ok; });
+    $('missedOnly').hidden = missed.length === 0;
+
+    var tops = {};
+    results.forEach(function(r){
+      var t = tops[r.q.topic] || (tops[r.q.topic] = { n: 0, ok: 0 });
+      t.n++; if (r.ok) t.ok++;
+    });
+    $('bytopic').innerHTML = '';
+    Object.keys(tops).forEach(function(name){
+      var t = tops[name], d = document.createElement('div');
+      d.innerHTML = '<span></span><span class="' + (t.ok < t.n ? 'bad' : '') + '">' + t.ok + ' / ' + t.n + '</span>';
+      d.firstChild.textContent = name;
+      $('bytopic').appendChild(d);
+    });
+
+    var rv = $('review'); rv.innerHTML = '';
+    if (missed.length){
+      var h = document.createElement('h3'); h.textContent = 'Review what you missed (' + missed.length + ')'; rv.appendChild(h);
+      missed.forEach(function(r){
+        var c = document.createElement('div'); c.className = 'qcard';
+        c.innerHTML = '<div class="topic"></div><div class="q"></div><div class="opts"></div>';
+        c.querySelector('.topic').textContent = r.q.topic;
+        c.querySelector('.q').textContent = r.q.q;
+        var box = c.querySelector('.opts');
+        r.q.opts.forEach(function(o, k){
+          var b = document.createElement('button');
+          b.className = 'opt' + (r.q.multi ? ' multi' : '');
+          b.innerHTML = '<span class="k">' + String.fromCharCode(65 + k) + '</span><span class="t"></span>';
+          b.querySelector('.t').textContent = o.text;
+          box.appendChild(b);
+        });
+        paint(box, r.q, r.picked);
+        rv.appendChild(c);
+      });
+    }
+    window.scrollTo(0, 0);
+  }
+
+  $('go').onclick = function(){ begin(ALL); };
+  $('again').onclick = function(){ begin(ALL); };
+  $('missedOnly').onclick = function(){
+    begin(results.filter(function(r){ return !r.ok; }).map(function(r){ return r.q.src; }));
+  };
+  $('act').onclick = function(){ if (checked) next(); else check(); };
+  document.addEventListener('keydown', function(e){
+    if ($('quiz').hidden) return;
+    var n = e.key.toUpperCase().charCodeAt(0) - 65;
+    if (e.key.length === 1 && n >= 0 && n < run[i].opts.length) pick(n);
+    else if (/^[1-9]$/.test(e.key) && +e.key <= run[i].opts.length) pick(+e.key - 1);
+    else if (e.key === 'Enter' && !$('act').disabled){ e.preventDefault(); $('act').click(); }
+  });
+})();
+</script>
+</body>
+</html>
